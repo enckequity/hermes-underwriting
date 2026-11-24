@@ -148,7 +148,7 @@ def resolve_path(path: str) -> str:
 def assert_public_url(url: str) -> str:
     """http(s) only, and only to public addresses.
 
-    A bare `urlopen` will happily read `file:///etc/passwd`, hop to 127.0.0.1, sweep the LAN, or
+    A bare `urlopen` would also read local files, hop to loopback, sweep the LAN, or
     reach a cloud metadata endpoint. Since the URL can come out of a document the model just read,
     every hop has to be checked.
     """
