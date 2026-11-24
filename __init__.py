@@ -8,7 +8,6 @@ can fail because an API moved.
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 
 try:  # loaded as hermes_plugins.<slug>
@@ -63,9 +62,8 @@ def register(ctx):
 
 
 def _load_deal_file(path: str) -> dict:
-    p = Path(os.path.expanduser(path))
-    if not p.exists():
-        raise FileNotFoundError(f"no such file: {p}")
+    # Same resolution and read block list as the tools: no $HOME fallback, blocked paths refused.
+    p = Path(tools.resolve_path(path))
     data = json.loads(p.read_text(encoding="utf-8"))
     # Accept either a bare deal or {"deal": {...}, "buy_box": {...}}
     if isinstance(data, dict) and isinstance(data.get("deal"), dict):
